@@ -129,8 +129,6 @@ async function submitQuiz() {
     }
   });
 
-  console.log("Final Score:", score);
-
   const totalQuestions = quizQuestions.length;
   const resultText = `You scored ${score}/${totalQuestions}`;
 
@@ -154,7 +152,6 @@ async function submitQuiz() {
     console.error("Error saving quiz result:", err);
   }
 }
-
 
 
 
