@@ -29,8 +29,7 @@ export async function saveQuizResult(score) {
     });
   } else {
     console.error("Error saving score:", error);
-  }
-}
+  }}
 }
 
 export async function getQuizHistory() {

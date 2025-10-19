@@ -14,6 +14,12 @@ const submitBtn = document.getElementById('submit-btn');
 const retryBtn = document.getElementById('retry-btn');
 const resultDiv = document.getElementById('result');
 const timerDisplay = document.getElementById('timer');
+const profileBtn = document.getElementById('profile-btn');
+
+// Profile Button
+profileBtn?.addEventListener("click", () => {
+  window.location.href = "/profile";
+});
 
 // Initialize
 quizForm.innerHTML = "";

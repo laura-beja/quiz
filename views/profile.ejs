@@ -2,27 +2,25 @@
 <html>
 <head>
   <title>Profile</title>
-  <script type="module" src="/js/firestore.js"></script>
+    <link rel="stylesheet" href="/css/quiz.css">
+    
 </head>
 <body>
-  <h1>Your Profile</h1>
-  <ul id="history"></ul>
-  <button id="logout-btn">Logout</button>
+    <!-- Navigation Bar -->
+    <nav>
+        <h1 id="quiz-title" role="button">Traffic Sign Quiz</h1>
+        <div class="nav-right">
+            <a href="/profile">
+                <img src="/images/profile-icon.png" alt="Profile">
+            </a>
+        </div>
+    </nav>
+    <h1>Quiz History</h1>
+    <ul id="history"></ul>
+    <button id="logout-btn" type="button">Logout</button>
 
-  <script type="module">
-    import { getQuizHistory } from "/js/firestore.js";
-    const list = document.getElementById("history");
-    getQuizHistory().then(attempts => {
-      if (!attempts.length) {
-        list.innerHTML = "<li>No quiz attempts yet</li>";
-        return;
-      }
-      attempts.forEach(a => {
-        const li = document.createElement("li");
-        li.textContent = `Score: ${a.score} - ${new Date(a.timestamp).toLocaleString()}`;
-        list.appendChild(li);
-      });
-    });
-  </script>
+    <!-- external scripts -->
+    <script type="module" src="/js/profile.js"></script>
+    <script type="module" src="/js/global-nav.js"></script>
 </body>
 </html>

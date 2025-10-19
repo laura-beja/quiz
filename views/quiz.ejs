@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/css/quiz.css">
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav>
+        <h1 id="quiz-title" role="button">Traffic Sign Quiz</h1>
+        <div class="nav-right">
+            <a href="/profile">
+                <img src="/images/profile-icon.png" alt="Profile">
+            </a>
+        </div>
+    </nav>
+
+    <!-- QUIZ -->
     <div class="quiz-container">
         <div class="timer">
             Time Left: <span id="timer">180</span> seconds
@@ -17,6 +28,7 @@
         <div id="result" class="result"></div>
         <button id="retry-btn" type="button" style="display:none;">Retry Quiz</button>
     </div>
+    <script type="module" src="/js/quiz.js"></script>
+    <script type="module" src="/js/global-nav.js"></script>
 </body>
-<script type="module" src="/js/quiz.js"></script>
 </html>
