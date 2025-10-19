@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile</title>
+  <script type="module" src="/js/firestore.js"></script>
+</head>
+<body>
+  <h1>Your Profile</h1>
+  <ul id="history"></ul>
+  <button id="logout-btn">Logout</button>
+
+  <script type="module">
+    import { getQuizHistory } from "/js/firestore.js";
+    const list = document.getElementById("history");
+    getQuizHistory().then(attempts => {
+      if (!attempts.length) {
+        list.innerHTML = "<li>No quiz attempts yet</li>";
+        return;
+      }
+      attempts.forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = `Score: ${a.score} - ${new Date(a.timestamp).toLocaleString()}`;
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login / Signup</title>
+    <link rel="stylesheet" href="/css/index.css">
+   
+    <style>
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+    </style>
 </head>
+
 <body>
-  <h1><%= message %></h1>
+    <!-- Login Form -->
+    <div id="loginView" class="form-container active">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="login-email">Email:</label>
+            <input id="email" type="email" name="login-email">
+            <label for="login-password">Password:</label>
+            <input id="password" type="password"  name="login-password">
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account?
+            <button onclick="toggleView('signupView')">Sign up here.</button>
+        </p>
+    </div>
+    <!-- Signup Form -->
+    <div id="signupView" class="form-container">
+        <h2>Sign Up</h2>
+        <form>
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name">
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name">
+            <label for="signup-email">Email:</label>
+            <input type="email" id="signup-email" name="signup-email">
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" name="signup-password">
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account?
+            <button onclick="toggleView('loginView')">Login here.</button>
+        </p>
+    </div>
+    <script>
+        function toggleView(viewId) {
+            document.getElementById('loginView').classList.remove('active');
+            document.getElementById('signupView').classList.remove('active');
+            document.getElementById(viewId).classList.add('active');
+        }
+    </script>
 </body>
 </html>

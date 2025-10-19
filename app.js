@@ -10,7 +10,7 @@ app.use(express.static('public'));
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home Page', message: 'Welcome to EJS + Express!' });
+  res.render('index');
 });
 
 // Start server
