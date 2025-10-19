@@ -1,7 +1,7 @@
 [
   {
     "question": "What does this sign mean?",
-    "image": "images/otter4.jpg",
+    "image": "images/national-speed-limit.webp",
     "options": [
       "National speed limit applies",
       "Waiting prohibited",
@@ -11,7 +11,7 @@
   },
   {
     "question": "What does this sign indicate?",
-    "image": "images/otter4.jpg",
+    "image": "images/traffic-signals-ahead.jpg",
     "options": [
       "Junction ahead controlled by STOP or GIVE WAY sign",
       "Overhead cable repairs ahead",
@@ -21,7 +21,7 @@
   },
   {
     "question": "This sign means:",
-    "image": "images/otter4.jpg",
+    "image": "images/either-side.jpg",
     "options": [
       "Merge in turn",
       "Vehicular traffic may pass either side of the sign",
@@ -31,7 +31,7 @@
   },
   {
     "question": "What does the following sign show?",
-    "image": "images/otter4.jpg",
+    "image": "images/no-overtaking.jpg",
     "options": [
       "No entry for vehicular traffic",
       "No overtaking",
@@ -41,7 +41,7 @@
   },
   {
     "question": "The depicted sign indicates:",
-    "image": "images/otter4.jpg",
+    "image": "images/no-cycling.webp",
     "options": [
       "Cycle route ahead warning",
       "End of cycle lane",
@@ -51,7 +51,7 @@
   },
   {
     "question": "What is the meaning of this road sign?",
-    "image": "images/otter4.jpg",
+    "image": "images/railway.png",
     "options": [
       "Pedestrian crossing ahead",
       "Cross road hazard ahead",
@@ -61,7 +61,7 @@
   },
   {
     "question": "This sign indicates:",
-    "image": "images/otter4.jpg",
+    "image": "images/narrow-bridge.png",
     "options": [
       "Narrow bridge ahead",
       "Road narrows on both sides",
@@ -71,32 +71,32 @@
   },
   {
     "question": "What is indicated by this sign?",
-    "image": "images/otter4.jpg",
+    "image": "images/max-speed.webp",
     "options": [
       "Maximum speed limit",
       "Minimum speed limit",
-      "End of 30 mph minimum speed limit"
+      "End of 30 km minimum speed limit"
     ],
     "answer": 0
   },
   {
     "question": "If you see this sign, it means:",
-    "image": "images/otter4.jpg",
+    "image": "images/bus-lane-ahead.png",
     "options": [
       "Bus lane ahead",
       "Additional traffic joining from the right ahead",
       "Appropriate traffic lanes at a junction ahead"
     ],
-    "answer": 1
+    "answer": 0
   },
   {
     "question": "What does this sign warn about?",
-    "image": "images/otter4.jpg",
+    "image": "images/slow-moving-military.jpg",
     "options": [
       "Tracked vehicles prohibited",
       "Slow-moving military vehicles crossing",
       "Priority given to military vehicles"
     ],
-    "answer": 2
+    "answer": 1
   }
 ]
