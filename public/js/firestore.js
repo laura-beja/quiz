@@ -19,13 +19,18 @@ export async function saveQuizResult(score) {
         timestamp: new Date().toISOString()
       })
     });
+    console.log("Score saved successfully!");
   } catch (error) {
+    if (error.code === 'not-found') {
     // Document not found, create one
     await setDoc(userRef, {
       email: user.email,
       attempts: [{ score, timestamp: new Date().toISOString() }]
     });
+  } else {
+    console.error("Error saving score:", error);
   }
+}
 }
 
 export async function getQuizHistory() {
