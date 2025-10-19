@@ -1,20 +1,83 @@
+import { auth } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { saveQuizResult } from "./firestore.js";
+
 let quizQuestions = [];
 let timer = 180;
 let timerInterval;
+let score = 0;
 
-// Load quiz questions (request quiz data from the backend api)
-fetch('src/questions')
+// DOM References
+const quizForm = document.getElementById('quiz-form');
+const startBtn = document.getElementById('start-btn');
+const submitBtn = document.getElementById('submit-btn');
+const retryBtn = document.getElementById('retry-btn');
+const resultDiv = document.getElementById('result');
+const timerDisplay = document.getElementById('timer');
+
+// Initialize
+quizForm.innerHTML = "";
+submitBtn.style.display = "none";
+retryBtn.style.display = "none";
+
+// Verify user is logged in before starting quiz
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    alert("You must be logged in to take the quiz.");
+    window.location.href = "/";
+  }
+});
+
+// Load questions (static JSON or backend endpoint)
+fetch("/questions.json")
   .then(response => response.json())
   .then(data => {
     quizQuestions = data;
-    console.log("Loaded questions:", quizQuestions); // debugging
-  });
+  })
+  .catch(err => console.error("Error loading questions:", err));
 
+
+// Start Quiz Button
+startBtn.addEventListener("click", () => {
+  renderQuiz();
+  startTimer();
+  startBtn.style.display = "none";
+  submitBtn.style.display = "inline-block";
+});
+
+
+// Submit Quiz Button
+if (submitBtn) {
+  submitBtn.addEventListener("click", submitQuiz);
+}
+
+
+// Retry Button
+if (retryBtn) {
+  retryBtn.addEventListener("click", () => {
+    // Reset state
+    timer = 180;
+    score = 0;
+    clearInterval(timerInterval);
+    quizForm.innerHTML = "";
+    resultDiv.innerHTML = "";
+    submitBtn.disabled = false;
+    submitBtn.style.display = "inline-block";
+    retryBtn.style.display = "none";
+
+    // Restart
+    renderQuiz();
+    startTimer();
+  });
+}
+
+
+// Timer logic
 function startTimer() {
-  document.getElementById('timer').textContent = timer;
+  timerDisplay.textContent = timer;
   timerInterval = setInterval(() => {
     timer--;
-    document.getElementById('timer').textContent = timer;
+    timerDisplay.textContent = timer;
     if (timer <= 0) {
       clearInterval(timerInterval);
       submitQuiz();
@@ -22,97 +85,82 @@ function startTimer() {
   }, 1000);
 }
 
-function renderQuiz() {
-  const quizForm = document.getElementById('quiz-form');
-  quizForm.innerHTML = '';
-  // debugging
-  console.log('Type:', typeof quizQuestions, 'Is Array:', Array.isArray(quizQuestions));
 
+// Render Quiz Questions
+function renderQuiz() {
+  quizForm.innerHTML = "";
   quizQuestions.forEach((q, idx) => {
-    const block = document.createElement('div');
-    block.className = 'question-block';
+    const block = document.createElement("div");
+    block.className = "question-block";
     block.innerHTML = `
-      <div class="question-text">${idx + 1}. ${q.question}</div>
+      <h3>${idx + 1}. ${q.question}</h3>
       <img src="${q.image}" alt="Sign image" class="sign-image" style="max-height:80px; margin-bottom:10px;">
-      <div class="options">
-        ${q.options.map((option, optIdx) =>
-          `<label>
-            <input type="radio" name="q${idx}" value="${optIdx}">
-            ${option}
-          </label>`
-        ).join('')}
-      </div>
-    `;
+      <fieldset>
+      ${q.options.map((opt, i) =>
+            `<label>
+              <input type="radio" name="${idx}" value="${i}" required>
+              ${opt}
+            </label><br>`
+        ).join("")}
+        </fieldset>
+        `;
     quizForm.appendChild(block);
   });
 }
 
-function submitQuiz() {
-    document.getElementById('submit-btn').disabled = true;
-    clearInterval(timerInterval);
 
-    let score = 0;
-    let wrongAnswers = [];
-    
-    quizQuestions.forEach((q, idx) => {
-        const radios = document.getElementsByName(`q${idx}`);
-        let selected = -1;
-        for (let r = 0; r < radios.length; r++) {
-            if (radios[r].checked) {
-            selected = r;
-            break;
-        }
+// Evaluate and Save Score
+async function submitQuiz() {
+  clearInterval(timerInterval);
+  submitBtn.disabled = true;
+
+  const formData = new FormData(quizForm);
+  let score = 0;
+  let wrongAnswers = [];
+
+  quizQuestions.forEach((q, idx) => {
+    const selectedValue = formData.get(`${idx}`);
+    const selectedIndex = selectedValue !== null ? parseInt(selectedValue) : -1;
+
+    if (parseInt(selectedIndex) === q.answer) {
+      score++;
+    } else {
+      wrongAnswers.push(idx + 1);
     }
-        if (selected === q.answer) {
-            score++;
-        } else {
-        wrongAnswers.push(idx + 1);
-        }
-    });
+  });
 
-    const resultDiv = document.getElementById('result');
+  console.log("Final Score:", score);
 
-    resultDiv.innerHTML =
-    (score >= 8 ? "Congratulations! You passed.<br>" : "") +
-    `Your score: ${score}/10` +
-    (score < 8 ? `<br>Questions wrong: ${wrongAnswers.join(', ') || "None"}<br>Try again!` : "");
+  const totalQuestions = quizQuestions.length;
+  const resultText = `You scored ${score}/${totalQuestions}`;
 
-    document.getElementById('retry-btn').style.display = score >= 8 ? "none" : "inline-block";
+  resultDiv.innerHTML = `
+    <h2>${resultText}</h2>
+    <p>${score >= 8 ? "Pass" : "Fail"}</p>
+    ${
+      wrongAnswers.length > 0
+        ? `<p>Questions answered incorrectly: ${wrongAnswers.join(", ")}</p>`
+        : `<p>Perfect score! All answers correct.</p>`
+    }
+  `;
+
+  retryBtn.style.display = "inline-block";
+  submitBtn.style.display = "none";
+
+  try {
+    await saveQuizResult(score);
+    console.log("Quiz result saved successfully");
+  } catch (err) {
+    console.error("Error saving quiz result:", err);
+  }
 }
 
-// Attach event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // Hide questions and submit/retry buttons initially
-    document.getElementById('quiz-form').innerHTML = "";
-    document.getElementById('submit-btn').style.display = "none";
-    document.getElementById('retry-btn').style.display = "none";
 
-    // Start Quiz Button
-    const startBtn = document.getElementById('start-btn');
-    startBtn.addEventListener('click', function () {
-        renderQuiz();
-        startTimer();
-        startBtn.style.display = "none";
-        document.getElementById('submit-btn').style.display = "inline-block";
-    });
 
-    // Submit button
-    const submitBtn = document.getElementById('submit-btn');
-    if (submitBtn) submitBtn.addEventListener('click', submitQuiz);
 
-    // Retry button
-    const retryBtn = document.getElementById('retry-btn');
-     if (retryBtn) retryBtn.addEventListener('click', () => {
-
-        // resetting necessary states
-        timer = 180;
-        document.getElementById('submit-btn').disabled = false;
-        document.getElementById('quiz-form').innerHTML = "";
-        document.getElementById('result').innerHTML = '';
-         
-        renderQuiz();
-        startTimer();
-        retryBtn.style.display = 'none';    // hides retry btn
-    });
+// Logout button (optional)
+const logoutBtn = document.getElementById("logout-btn");
+logoutBtn?.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "/";
 });
