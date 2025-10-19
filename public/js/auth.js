@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
@@ -13,13 +13,21 @@ const logoutBtn = document.getElementById("logout-btn");
 loginForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const { email, password } = e.target;
-  await signInWithEmailAndPassword(auth, email.value, password.value);
+  try{
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    } catch (error) {
+        alert(error.message);
+    }
 });
 
 signupForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const { email, password } = e.target;
-  await createUserWithEmailAndPassword(auth, email.value, password.value);
+  try {
+    await createUserWithEmailAndPassword(auth, email.value, password.value);}
+    catch (error) {
+        alert(error.message);
+    }
 });
 
 logoutBtn?.addEventListener("click", () => signOut(auth));

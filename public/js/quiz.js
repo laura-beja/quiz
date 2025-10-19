@@ -3,7 +3,7 @@ let timer = 180;
 let timerInterval;
 
 // Load quiz questions (request quiz data from the backend api)
-fetch('/api/questions')
+fetch('src/questions')
   .then(response => response.json())
   .then(data => {
     quizQuestions = data;
