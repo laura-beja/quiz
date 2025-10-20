@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Traffic Sign Quiz</title>
-    <link rel="stylesheet" href="/css/quiz.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav>
         <h1 id="quiz-title" role="button">Traffic Sign Quiz</h1>
-        <div class="nav-right">
-            <a href="/profile">
-                <img src="/images/profile-icon.png" alt="Profile">
-            </a>
-        </div>
+        <a href="/profile" class="nav-right">
+            <img src="/images/profile-icon.png" alt="Profile">
+        </a>
     </nav>
 
     <!-- QUIZ -->
-    <div class="quiz-container">
+    <section class="quiz-container">
         <div class="timer">
             Time Left: <span id="timer">180</span> seconds
         </div>
@@ -25,9 +23,11 @@
         <form id="quiz-form">
         </form>
         <button id="submit-btn" type="button">Submit Quiz</button>
-        <div id="result" class="result"></div>
+        <section id="result" class="result"></section>
         <button id="retry-btn" type="button" style="display:none;">Retry Quiz</button>
-    </div>
+    </section>
+
+    <!-- external scripts -->
     <script type="module" src="/js/quiz.js"></script>
     <script type="module" src="/js/global-nav.js"></script>
 </body>

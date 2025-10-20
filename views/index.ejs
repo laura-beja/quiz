@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login / Signup</title>
-    <link rel="stylesheet" href="/css/index.css">
-    <script type="module" src="/js/auth.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- inline styles for the forms visibility -->
     <style>
         .form-container {
             display: none;
@@ -15,10 +15,9 @@
         }
     </style>
 </head>
-
 <body>
     <!-- Login Form -->
-    <div id="loginView" class="form-container active">
+    <div id="loginView" class="form-container ">
         <h2>Login</h2>
         <form id="login-form">
             <label for="login-email">Email:</label>
@@ -32,7 +31,7 @@
         </p>
     </div>
     <!-- Signup Form -->
-    <div id="signupView" class="form-container">
+    <div id="signupView" class="form-container active">
         <h2>Sign Up</h2>
         <form id="signup-form">
             <label for="email">Email:</label>
@@ -45,6 +44,8 @@
             <button onclick="toggleView('loginView')">Login here.</button>
         </p>
     </div>
+
+    <!-- toggle between login/signup views script -->
     <script>
         function toggleView(viewId) {
             document.getElementById('loginView').classList.remove('active');
@@ -52,7 +53,8 @@
             document.getElementById(viewId).classList.add('active');
         }
     </script>
-    <script type="module" src="/js/global-nav.js"></script>
 
+    <!-- external auth script -->
+    <script type="module" src="/js/auth.js"></script>
 </body>
 </html>

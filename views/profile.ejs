@@ -2,23 +2,24 @@
 <html>
 <head>
   <title>Profile</title>
-    <link rel="stylesheet" href="/css/quiz.css">
-    
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav>
         <h1 id="quiz-title" role="button">Traffic Sign Quiz</h1>
-        <div class="nav-right">
-            <a href="/profile">
-                <img src="/images/profile-icon.png" alt="Profile">
-            </a>
-        </div>
+        <a href="/profile" class="nav-right">
+            <img src="/images/profile-icon.png" alt="Profile">
+        </a>
     </nav>
-    <h1>Quiz History</h1>
-    <ul id="history"></ul>
-    <button id="logout-btn" type="button">Logout</button>
 
+    <!-- Quiz attempts history -->
+    <section id="history-container">
+        <h1>Quiz History</h1>
+        <ul id="history"></ul>
+        <button id="logout-btn" type="button">Logout</button>
+    </section>
+    
     <!-- external scripts -->
     <script type="module" src="/js/profile.js"></script>
     <script type="module" src="/js/global-nav.js"></script>

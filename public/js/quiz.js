@@ -12,7 +12,7 @@ const quizForm = document.getElementById('quiz-form');
 const startBtn = document.getElementById('start-btn');
 const submitBtn = document.getElementById('submit-btn');
 const retryBtn = document.getElementById('retry-btn');
-const resultDiv = document.getElementById('result');
+const resultSection = document.getElementById('result');
 const timerDisplay = document.getElementById('timer');
 const profileBtn = document.getElementById('profile-btn');
 
@@ -21,7 +21,7 @@ profileBtn?.addEventListener("click", () => {
   window.location.href = "/profile";
 });
 
-// Initialize
+// Initialize quiz state
 quizForm.innerHTML = "";
 submitBtn.style.display = "none";
 retryBtn.style.display = "none";
@@ -34,7 +34,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Load questions (static JSON or backend endpoint)
+// Load questions static JSON file
 fetch("/questions.json")
   .then(response => response.json())
   .then(data => {
@@ -66,7 +66,7 @@ if (retryBtn) {
     score = 0;
     clearInterval(timerInterval);
     quizForm.innerHTML = "";
-    resultDiv.innerHTML = "";
+    resultSection.innerHTML = "";
     submitBtn.disabled = false;
     submitBtn.style.display = "inline-block";
     retryBtn.style.display = "none";
@@ -96,21 +96,21 @@ function startTimer() {
 function renderQuiz() {
   quizForm.innerHTML = "";
   quizQuestions.forEach((q, idx) => {
-    const block = document.createElement("div");
-    block.className = "question-block";
-    block.innerHTML = `
-      <h3>${idx + 1}. ${q.question}</h3>
-      <img src="${q.image}" alt="Sign image" class="sign-image" style="max-height:80px; margin-bottom:10px;">
-      <fieldset>
+    const section = document.createElement("section");
+    section.className = "question-section";
+    section.innerHTML = `
+    <h3>${idx + 1}. ${q.question}</h3>
+    <img src="${q.image}" alt="Sign image" class="sign-image" style="max-height:80px; margin-bottom:10px;">
+    <fieldset>
       ${q.options.map((opt, i) =>
-            `<label>
-              <input type="radio" name="${idx}" value="${i}" required>
-              ${opt}
-            </label><br>`
-        ).join("")}
-        </fieldset>
-        `;
-    quizForm.appendChild(block);
+        `<label>
+        <input type="radio" name="${idx}" value="${i}" required>
+        ${opt}
+        </label><br>`
+      ).join("")}
+      </fieldset>
+      `;
+    quizForm.appendChild(section);
   });
 }
 
@@ -138,7 +138,7 @@ async function submitQuiz() {
   const totalQuestions = quizQuestions.length;
   const resultText = `You scored ${score}/${totalQuestions}`;
 
-  resultDiv.innerHTML = `
+  resultSection.innerHTML = `
     <h2>${resultText}</h2>
     <p>${score >= 8 ? "Pass" : "Fail"}</p>
     ${

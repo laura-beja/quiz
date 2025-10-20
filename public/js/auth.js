@@ -8,7 +8,6 @@ import {
 
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
-const logoutBtn = document.getElementById("logout-btn");
 
 loginForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -29,8 +28,6 @@ signupForm?.addEventListener("submit", async (e) => {
         alert(error.message);
     }
 });
-
-logoutBtn?.addEventListener("click", () => signOut(auth));
 
 onAuthStateChanged(auth, (user) => {
   if (user && window.location.pathname === "/") {

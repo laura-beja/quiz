@@ -22,9 +22,9 @@ onAuthStateChanged(auth, async (user) => {
         .forEach((attempt) => {
           const li = document.createElement("li");
           const timeString = new Date(attempt.timestamp).toLocaleString();
-          li.textContent = `Score: ${attempt.score} ==> Time: ${timeString}`;
+          li.textContent = `Score: ${attempt.score} ........ Timestamp: ${timeString}`;
           historyList.appendChild(li);
-        });
+        }); 
     } catch (error) {
       console.error("Error loading history:", error);
       historyList.innerHTML = "<li>Error loading quiz history.</li>";
