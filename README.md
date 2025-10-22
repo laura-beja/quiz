@@ -14,9 +14,3 @@ and **Firestore**, and deployed using **Render**.
 - User authentication via Firebase Auth.  
 - Progress and scores stored in Firebase Firestore.  
 - Fully responsive UI for mobile and desktop.
-
-### Prerequisites
-- Node.js (v18+)
-- Firebase account
-- Render account (for deployment)
-
